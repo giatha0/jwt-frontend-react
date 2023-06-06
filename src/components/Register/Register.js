@@ -10,6 +10,14 @@ const Register = (props) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const defaultValidInput = {
+        isValidEmail: true,
+        isValidPhone: true,
+        isValidUsername: true,
+        isValidPassword: true,
+        isValidConfirmPassword: true,
+    };
+    const [objCheckValid, setObjCheckValid] = useState(defaultValidInput);
 
     const history = useHistory();
 
@@ -18,44 +26,77 @@ const Register = (props) => {
     }
 
     useEffect(() => {
-        // axios.get('http://localhost:8080/api/test-api').then(res => {
+        // axios.get('http://localhost:8080/api/v1/test-api').then(res => {
         //     console.log('check data', res.data);
         // })
+
+
+        // handleRegister();
+
     }, [])
 
     const isValidInputs = () => {
+        setObjCheckValid(defaultValidInput);
         if (!email) {
             toast.error('Email is required');
+            setObjCheckValid({
+                ...objCheckValid,
+                isValidEmail: false
+            });
             return false;
         }
 
         let regxEmail = /\S+@\S+\.\S+/;
         if (!regxEmail.test(email)) {
             toast.error('Email is invalid');
+            setObjCheckValid({
+                ...objCheckValid,
+                isValidEmail: false
+            });
             return false;
         }
         if (!phone) {
             toast.error('Phone is required');
+            setObjCheckValid({
+                ...objCheckValid,
+                isValidPhone: false
+            });
             return false;
         }
         let regxPhone = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
         if (!regxPhone.test(phone)) {
             toast.error('Phone is invalid');
+            setObjCheckValid({
+                ...objCheckValid,
+                isValidPhone: false
+            });
             return false;
         }
 
         if (!username) {
             toast.error('Username is required');
+            setObjCheckValid({
+                ...objCheckValid,
+                isValidUsername: false
+            });
             return false;
         }
         let usernameRegex = /^[a-zA-Z0-9]+$/;
         if (!usernameRegex.test(username)) {
             toast.error('Username is invalid');
+            setObjCheckValid({
+                ...objCheckValid,
+                isValidUsername: false
+            });
             return false;
         }
 
         if (!password) {
             toast.error('Password is required');
+            setObjCheckValid({
+                ...objCheckValid,
+                isValidPassword: false
+            });
             return false;
         }
         // let regxPassword = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
@@ -66,26 +107,28 @@ const Register = (props) => {
 
         if (password !== confirmPassword) {
             toast.error('Password and confirm password must be the same');
+            setObjCheckValid({
+                ...objCheckValid,
+                isValidConfirmPassword: false
+            });
             return false;
         }
 
-
-
-
+        toast.success('Register success');
+        return true;
     }
 
     const handleRegister = () => {
         let check = isValidInputs();
-
-        let userData = {
-            email: email,
-            phone: phone,
-            username: username,
-            password: password,
-            confirmPassword: confirmPassword
+        // console.log('check', check);
+        if (check === true) {
+            axios.post('http://localhost:8080/api/v1/register', {
+                email, phone, username, password
+            })
         }
-        console.log('check data', userData);
-        // toast.error('Register failed');
+
+
+
     }
 
     return (
@@ -108,7 +151,7 @@ const Register = (props) => {
                             <label htmlFor="email">Email: </label>
                             <input
                                 id='email'
-                                className='form-control'
+                                className={objCheckValid.isValidEmail ? 'form-control' : 'form-control is-invalid'}
                                 type="text"
                                 placeholder="Email address"
                                 value={email}
@@ -119,7 +162,7 @@ const Register = (props) => {
                             <label htmlFor="phone">Phone number: </label>
                             <input
                                 id='phone'
-                                className='form-control'
+                                className={objCheckValid.isValidPhone ? 'form-control' : 'form-control is-invalid'}
                                 type="text"
                                 placeholder="Phone number"
                                 value={phone}
@@ -130,7 +173,7 @@ const Register = (props) => {
                             <label htmlFor="username">Username: </label>
                             <input
                                 id='username'
-                                className='form-control'
+                                className={objCheckValid.isValidUsername ? 'form-control' : 'form-control is-invalid'}
                                 type="text"
                                 placeholder="Username"
                                 value={username}
@@ -141,7 +184,7 @@ const Register = (props) => {
                             <label htmlFor="password">Password: </label>
                             <input
                                 id='password'
-                                className='form-control'
+                                className={objCheckValid.isValidPassword ? 'form-control' : 'form-control is-invalid'}
                                 type="password"
                                 placeholder="Password"
                                 value={password}
@@ -152,7 +195,7 @@ const Register = (props) => {
                             <label htmlFor="confirm-password">Confirm Password: </label>
                             <input
                                 id='confirm-password'
-                                className='form-control'
+                                className={objCheckValid.isValidConfirmPassword ? 'form-control' : 'form-control is-invalid'}
                                 type="password"
                                 placeholder="Confirm Password"
                                 value={confirmPassword}
