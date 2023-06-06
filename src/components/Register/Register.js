@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './Register.scss';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
-
+import toastify, { toast } from 'react-toastify'
 
 const Register = (props) => {
     const [email, setEmail] = useState('');
@@ -23,7 +23,60 @@ const Register = (props) => {
         // })
     }, [])
 
+    const isValidInputs = () => {
+        if (!email) {
+            toast.error('Email is required');
+            return false;
+        }
+
+        let regxEmail = /\S+@\S+\.\S+/;
+        if (!regxEmail.test(email)) {
+            toast.error('Email is invalid');
+            return false;
+        }
+        if (!phone) {
+            toast.error('Phone is required');
+            return false;
+        }
+        let regxPhone = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
+        if (!regxPhone.test(phone)) {
+            toast.error('Phone is invalid');
+            return false;
+        }
+
+        if (!username) {
+            toast.error('Username is required');
+            return false;
+        }
+        let usernameRegex = /^[a-zA-Z0-9]+$/;
+        if (!usernameRegex.test(username)) {
+            toast.error('Username is invalid');
+            return false;
+        }
+
+        if (!password) {
+            toast.error('Password is required');
+            return false;
+        }
+        // let regxPassword = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
+        // if (!regxPassword.test(password)) {
+        //     toast.error('Password is invalid');
+        //     return false;
+        // }
+
+        if (password !== confirmPassword) {
+            toast.error('Password and confirm password must be the same');
+            return false;
+        }
+
+
+
+
+    }
+
     const handleRegister = () => {
+        let check = isValidInputs();
+
         let userData = {
             email: email,
             phone: phone,
@@ -32,6 +85,7 @@ const Register = (props) => {
             confirmPassword: confirmPassword
         }
         console.log('check data', userData);
+        // toast.error('Register failed');
     }
 
     return (
