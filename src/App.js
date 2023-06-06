@@ -1,6 +1,5 @@
 import './App.scss';
 import Login from './components/Login/Login';
-import Nav from './components/Navigation/Nav';
 import {
   BrowserRouter as Router,
   Switch,
