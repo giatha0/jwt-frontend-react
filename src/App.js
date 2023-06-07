@@ -14,6 +14,7 @@ function App() {
     <>
       <Router>
         <div className="app-container">
+
           {/* <Nav /> */}
           <Switch>
             <Route path="/news">
@@ -39,11 +40,11 @@ function App() {
             </Route>
           </Switch>
         </div>
-
       </Router>
+
       <ToastContainer
         position="bottom-center"
-        autoClose={3000}
+        autoClose={5000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick

@@ -1,13 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Login.scss';
 import { useHistory } from 'react-router-dom';
-
+import { toast } from 'react-toastify';
 
 const Login = (props) => {
     const history = useHistory();
 
+    const [valueLogin, setValueLogin] = useState("");
+    const [password, setPassword] = useState("");
+
+
     const handleCreateNewAccount = () => {
         history.push('/register');
+    }
+
+    const handleLogin = () => {
+        if (!valueLogin) {
+            toast.error('Please enter your email or phone numberrrrrrr');
+            return;
+        }
+        if (!password) {
+            toast.error('Please enter your password');
+            return;
+        }
     }
     return (
         <div className="login-container ">
@@ -25,11 +40,29 @@ const Login = (props) => {
                         <div className='brand d-sm-none d-block '>
                             Thao Duong Gia
                         </div>
-                        <input className='form-control' type="text" placeholder="Email address or phone number" />
-                        <input className='form-control' type="password" placeholder="Password" />
-                        <button className='btn btn-primary'>Log In</button>
+                        <input
+                            className='form-control'
+                            type="text"
+                            placeholder="Email address or phone number"
+                            value={valueLogin}
+                            onChange={(event) => { setValueLogin(event.target.value) }}
+                        />
+                        <input
+                            className='form-control'
+                            type="password"
+                            placeholder="Password"
+                            value={password}
+                            onChange={(event) => { setPassword(event.target.value) }}
+                        />
+                        <button
+                            className='btn btn-primary'
+                            onClick={() => handleLogin()}
+                        >
+
+                            Log In
+                        </button>
                         <span className='text-center'>
-                            <a href="#" className='forgot-password'>
+                            <a href="" className='forgot-password'>
                                 Forgot Password
                             </a>
                         </span>
