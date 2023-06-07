@@ -41,7 +41,23 @@ const Login = (props) => {
             return;
         }
 
-        await loginUser(valueLogin, password);
+        let res = await loginUser(valueLogin, password);
+        if (res && res.data && +res.data.EC === 0) {
+            let data = {
+                isAuthenticated: true,
+                token: 'fake token',
+            }
+            sessionStorage.setItem("account", JSON.stringify(data));
+
+            history.push('/users');
+            toast.success(res.data.EM);
+        }
+
+        if (res && res.data && +res.data.EC !== 0) {
+            toast.error(res.data.EM);
+        }
+
+
     }
     return (
         <div className="login-container ">
