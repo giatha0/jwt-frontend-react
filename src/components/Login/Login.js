@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './Login.scss';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { loginUser } from '../services/userService';
 
 const Login = (props) => {
     const history = useHistory();
@@ -10,19 +11,37 @@ const Login = (props) => {
     const [password, setPassword] = useState("");
 
 
+    const defaultObjValidInput = {
+        isValidValueLogin: true,
+        isValidValuePassword: true,
+    }
+    const [objValueInput, setObjValueInput] = useState(defaultObjValidInput);
+
+
     const handleCreateNewAccount = () => {
         history.push('/register');
     }
 
-    const handleLogin = () => {
+    const handleLogin = async () => {
+        setObjValueInput(defaultObjValidInput);
         if (!valueLogin) {
-            toast.error('Please enter your email or phone numberrrrrrr');
+            setObjValueInput({
+                ...objValueInput,
+                isValidValueLogin: false
+            });
+            toast.error('Please enter your email or phone number');
             return;
         }
         if (!password) {
+            setObjValueInput({
+                ...objValueInput,
+                isValidValuePassword: false
+            });
             toast.error('Please enter your password');
             return;
         }
+
+        await loginUser(valueLogin, password);
     }
     return (
         <div className="login-container ">
@@ -41,14 +60,14 @@ const Login = (props) => {
                             Thao Duong Gia
                         </div>
                         <input
-                            className='form-control'
+                            className={objValueInput.isValidValueLogin ? 'form-control' : 'form-control is-invalid'}
                             type="text"
                             placeholder="Email address or phone number"
                             value={valueLogin}
                             onChange={(event) => { setValueLogin(event.target.value) }}
                         />
                         <input
-                            className='form-control'
+                            className={objValueInput.isValidValuePassword ? 'form-control' : 'form-control is-invalid'}
                             type="password"
                             placeholder="Password"
                             value={password}
@@ -58,7 +77,6 @@ const Login = (props) => {
                             className='btn btn-primary'
                             onClick={() => handleLogin()}
                         >
-
                             Log In
                         </button>
                         <span className='text-center'>
