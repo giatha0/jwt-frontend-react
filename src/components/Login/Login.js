@@ -48,16 +48,21 @@ const Login = (props) => {
                 token: 'fake token',
             }
             sessionStorage.setItem("account", JSON.stringify(data));
-
             history.push('/users');
+            window.location.reload();
             toast.success(res.data.EM);
+            // redux
         }
 
         if (res && res.data && +res.data.EC !== 0) {
             toast.error(res.data.EM);
         }
+    }
 
-
+    const handlePressEnter = (event) => {
+        if (event.key === 'Enter') {
+            handleLogin();
+        }
     }
     return (
         <div className="login-container ">
@@ -88,6 +93,7 @@ const Login = (props) => {
                             placeholder="Password"
                             value={password}
                             onChange={(event) => { setPassword(event.target.value) }}
+                            onKeyPress={(event) => handlePressEnter(event)}
                         />
                         <button
                             className='btn btn-primary'
