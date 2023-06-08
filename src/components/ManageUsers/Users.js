@@ -73,7 +73,12 @@ const Users = (props) => {
                         </div>
                         <div className='action'>
                             <button className='btn btn-success'>Refresh</button>
-                            <button className='btn btn-primary'>Add new user</button>
+                            <button
+                                className='btn btn-primary'
+                                onClick={() => setIsShowUser(true)}
+                            >
+                                Add new user
+                            </button>
                         </div>
                     </div>
                     <div className='user-body'>

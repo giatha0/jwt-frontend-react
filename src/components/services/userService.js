@@ -32,8 +32,11 @@ const fetchGroup = () => {
     return axios.get(`http://localhost:8080/api/v1/group/show`);
 }
 
+const createNewUser = (userData) => {
+    return axios.post(`http://localhost:8080/api/v1/user/create`, { ...userData });
+}
 
 export {
     registerNewUser, loginUser, fetchAllUsers, deleteUser,
-    fetchGroup
+    fetchGroup, createNewUser
 }
