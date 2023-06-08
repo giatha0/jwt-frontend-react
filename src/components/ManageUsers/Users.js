@@ -5,6 +5,7 @@ import { fetchAllUsers, deleteUser } from '../services/userService';
 import ReactPaginate from 'react-paginate';
 import { toast } from 'react-toastify';
 import ModalDeleteUser from './ModalDeleteUser';
+import ModalUser from './ModalUser';
 
 const Users = (props) => {
 
@@ -14,6 +15,7 @@ const Users = (props) => {
     const [totalPage, setTotalPage] = useState(0);
     const [isShowModalDeleteUser, setIsShowModalDeleteUser] = useState(false);
     const [dataModalDeleteUser, setDataModalDeleteUser] = useState({});
+    const [isShowUser, setIsShowUser] = useState(false);
 
     const fetchUsers = async () => {
         let res = await fetchAllUsers(currentPage, currentLimit);
@@ -53,6 +55,14 @@ const Users = (props) => {
         }
     }
 
+    const handleUser = () => {
+        setIsShowUser(true);
+    }
+
+    const handleCloseUser = () => {
+        setIsShowUser(false);
+    }
+
     return (
         <>
             <div className='container'>
@@ -90,7 +100,11 @@ const Users = (props) => {
                                                     <td>{item.username}</td>
                                                     <td>{item.Group ? item.Group.name : ''}</td>
                                                     <td>
-                                                        <button className='btn btn-warning me-3'>Edit</button>
+                                                        <button
+                                                            className='btn btn-warning me-3'
+                                                            onClick={() => handleUser()}
+                                                        >
+                                                            Edit</button>
                                                         <button
                                                             className='btn btn-danger'
                                                             onClick={() => handleDeleteUser(item)}
@@ -147,6 +161,12 @@ const Users = (props) => {
                 handleClose={handleClose}
                 confirmDeleteUser={confirmDeleteUser}
                 dataModal={dataModalDeleteUser}
+            />
+            <ModalUser
+                title='Create new user'
+                show={isShowUser}
+                setShow={handleCloseUser}
+                handleClose={handleCloseUser}
             />
         </>
     )
