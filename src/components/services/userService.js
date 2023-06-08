@@ -14,8 +14,8 @@ const loginUser = (valueLogin, password) => {
 
 }
 
-const fetchAllUsers = () => {
-    return axios.get('http://localhost:8080/api/v1/user/show');
+const fetchAllUsers = (page, limit) => {
+    return axios.get(`http://localhost:8080/api/v1/user/show?page=${page}&limit=${limit}`);
 }
 
 
