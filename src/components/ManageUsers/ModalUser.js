@@ -61,9 +61,10 @@ const ModalUser = (props) => {
     const checkValidataUser = () => { // check validata user
         let arr = ['email', 'phone', 'password', 'group'];
         let check = true;
+        let _validInputsDefult = _.cloneDeep(validInputsDefult)
         for (let i = 0; i < arr.length; i++) { // if empty set false
             if (!userData[arr[i]]) { // check empty
-                let _validInputsDefult = _.cloneDeep(validInputsDefult); // clone object
+                // clone object
                 _validInputsDefult[`isValid${arr[i].charAt(0).toUpperCase() + arr[i].slice(1)}`] = false; // set false 
                 setValidInput(_validInputsDefult); // set state
                 check = false;
@@ -71,6 +72,13 @@ const ModalUser = (props) => {
                 break;
             }
         }
+        // let regxEmail = /\S+@\S+\.\S+/;
+        // if (!regxEmail.test(userData.email)) {
+        //     toast.error('Email is invalid');
+        //     _validInputsDefult.isValidEmail = false;
+        //     setValidInput(_validInputsDefult);
+        //     check = false;
+        // }
         return check;
     }
 
@@ -84,6 +92,9 @@ const ModalUser = (props) => {
                 setUserData({ ...defaultUserData, group: userGroup[0].id }); // set default value with defult group
             } else {
                 toast.error(res.data.EM);
+                let _validInputsDefult = _.cloneDeep(validInputsDefult); // clone object
+                _validInputsDefult[`isValid${res.data.DT.charAt(0).toUpperCase() + res.data.DT.slice(1)}`] = false; // set false 
+                setValidInput(_validInputsDefult);
             }
         }
     }

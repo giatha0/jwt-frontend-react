@@ -99,7 +99,7 @@ const Users = (props) => {
                                         {listUsers.map((item, index) => {
                                             return (
                                                 <tr key={`row-${index}`}>
-                                                    <th scope="row">{index + 1}</th>
+                                                    <th scope="row">{(currentPage - 1) * currentLimit + index + 1}</th>
                                                     <td>{item.id}</td>
                                                     <td>{item.email}</td>
                                                     <td>{item.username}</td>
