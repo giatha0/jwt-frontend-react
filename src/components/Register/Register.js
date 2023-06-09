@@ -134,6 +134,8 @@ const Register = (props) => {
         }
     }
 
+
+
     return (
         <div className="register-container ">
             <div className="container">
@@ -142,6 +144,7 @@ const Register = (props) => {
                         <div className='brand'>
                             Thao Duong Gia
                         </div>
+
                         <div className='detail'>
                             Thao Duong Gia helps you connect and share with the people in your life.
                         </div>

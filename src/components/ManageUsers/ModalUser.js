@@ -1,6 +1,6 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { fetchGroup, createNewUser } from '../services/userService';
+import { fetchGroup, createNewUser, updateUser } from '../services/userService';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import _ from 'lodash';
@@ -48,7 +48,7 @@ const ModalUser = (props) => {
         if (action === 'CREATE') {
             if (userGroup && userGroup.length > 0) {
                 setUserData({
-                    ...defaultUserData,
+                    ...userData,
                     group: userGroup[0].id
                 })
             }
@@ -79,6 +79,8 @@ const ModalUser = (props) => {
     }
 
     const checkValidataUser = () => { // check validata user
+        if (action === 'UPDATE') return true;
+
         let arr = ['email', 'phone', 'password', 'group'];
         let check = true;
         let _validInputsDefult = _.cloneDeep(validInputsDefult)
@@ -104,12 +106,22 @@ const ModalUser = (props) => {
 
     const handleConfirm = async () => {
         let check = checkValidataUser();
+
         if (check) {
-            let res = await createNewUser({ ...userData, groupId: userData['group'] }); // create new user with groupId = group
+
+            let res = action === 'CREATE' ?
+                await createNewUser({ ...userData, groupId: userData['group'] })// create new user with groupId = group
+                :
+                await updateUser({ ...userData, groupId: userData['group'] ? userData['group'] : userGroup[0].id }) // update user with groupId = group });
+
+            console.log('check user group', userData)
             if (res && res.data && +res.data.EC === 0) {
                 toast.success(res.data.EM);
                 props.handleClose();
-                setUserData({ ...defaultUserData, group: userGroup[0].id }); // set default value with defult group
+                setUserData({
+                    ...defaultUserData,
+                    group: userGroup[0].id
+                }); // set default value with defult group
             } else {
                 toast.error(res.data.EM);
                 let _validInputsDefult = _.cloneDeep(validInputsDefult); // clone object
@@ -121,7 +133,8 @@ const ModalUser = (props) => {
 
     const handleCloseModalUser = () => {
         props.handleClose();
-
+        setUserData(defaultUserData);
+        setValidInput(validInputsDefult);
     }
 
     return (

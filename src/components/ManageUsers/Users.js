@@ -75,20 +75,32 @@ const Users = (props) => {
         setActionModalUser('UPDATE');
     }
 
+    const handleRefresh = async () => {
+        await fetchUsers();
+        toast.success('Refresh success');
+    }
+
     return (
         <>
             <div className='container'>
                 <div className='manage-users-container'>
                     <div className='user-header my-3'>
                         <div className='title'>
-                            <h3>Table Users</h3>
+                            <h3>Manage Users</h3>
                         </div>
-                        <div className='action'>
-                            <button className='btn btn-success'>Refresh</button>
+                        <div className='action mt-3'>
+                            <button
+                                className='btn btn-success me-2'
+                                onClick={() => handleRefresh()}
+                            >
+                                <i className="fa fa-refresh pe-1" ></i>
+                                Refresh
+                            </button>
                             <button
                                 className='btn btn-primary'
                                 onClick={() => handleAddNewUser()}
                             >
+                                <i className="fa fa-plus-circle pe-1"></i>
                                 Add new user
                             </button>
                         </div>
@@ -118,16 +130,19 @@ const Users = (props) => {
                                                     <td>{item.Group ? item.Group.name : ''}</td>
                                                     <td>
                                                         <button
-                                                            className='btn btn-warning me-3'
+                                                            className='btn btn-warning mx-2'
                                                             onClick={() => handleEditUser(item)}
+                                                            title="Edit"
                                                         >
-                                                            Edit
+                                                            <i className="fa fa-pencil"></i>
+
                                                         </button>
                                                         <button
                                                             className='btn btn-danger'
                                                             onClick={() => handleDeleteUser(item)}
+                                                            title='Delete'
                                                         >
-                                                            Delete
+                                                            <i className="fa fa-trash" ></i>
                                                         </button>
                                                     </td>
                                                 </tr>
@@ -143,7 +158,6 @@ const Users = (props) => {
                                         </tr>
                                     </>
                                 }
-
                             </tbody>
                         </table>
                     </div>
@@ -170,6 +184,7 @@ const Users = (props) => {
                                 renderOnZeroPageCount={null}
                             />
                         </div>
+
                     }
                 </div>
             </div>
