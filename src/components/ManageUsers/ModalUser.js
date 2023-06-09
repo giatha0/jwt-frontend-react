@@ -1,6 +1,6 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { fetchGroup, createNewUser, updateUser } from '../services/userService';
+import { fetchGroup, createNewUser, updateUser } from '../../services/userService';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import _ from 'lodash';
@@ -58,16 +58,16 @@ const ModalUser = (props) => {
 
     const getGroup = async () => { // get group to select option
         let res = await fetchGroup();
-        if (res && res.data && +res.data.EC === 0) {
-            setUserGroup(res.data.DT);
-            if (res.data.DT && res.data.DT.length > 0) {
+        if (res && +res.EC === 0) {
+            setUserGroup(res.DT);
+            if (res.DT && res.DT.length > 0) {
                 setUserData({
                     ...userData,
-                    group: res.data.DT[0].id // set default value
+                    group: res.DT[0].id // set default value
                 })
             }
         } else {
-            toast.error(res.data.EM);
+            toast.error(res.EM);
         }
     }
 
@@ -115,17 +115,17 @@ const ModalUser = (props) => {
                 await updateUser({ ...userData, groupId: userData['group'] ? userData['group'] : userGroup[0].id }) // update user with groupId = group });
 
             console.log('check user group', userData)
-            if (res && res.data && +res.data.EC === 0) {
-                toast.success(res.data.EM);
+            if (res && res && +res.EC === 0) {
+                toast.success(res.EM);
                 props.handleClose();
                 setUserData({
                     ...defaultUserData,
                     group: userGroup[0].id
                 }); // set default value with defult group
             } else {
-                toast.error(res.data.EM);
+                toast.error(res.EM);
                 let _validInputsDefult = _.cloneDeep(validInputsDefult); // clone object
-                _validInputsDefult[`isValid${res.data.DT.charAt(0).toUpperCase() + res.data.DT.slice(1)}`] = false; // set false 
+                _validInputsDefult[`isValid${res.DT.charAt(0).toUpperCase() + res.DT.slice(1)}`] = false; // set false 
                 setValidInput(_validInputsDefult);
             }
         }

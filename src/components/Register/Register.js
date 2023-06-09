@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './Register.scss';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify'
-import { registerNewUser } from '../services/userService';
+import { registerNewUser } from '../../services/userService';
 
 const Register = (props) => {
     const [email, setEmail] = useState('');
@@ -27,7 +27,7 @@ const Register = (props) => {
 
     useEffect(() => {
         // axios.get('http://localhost:8080/api/v1/test-api').then(res => {
-        //     console.log('check data', res.data);
+        //     console.log('check data', res);
         // })
 
 
@@ -124,12 +124,12 @@ const Register = (props) => {
         if (check === true) {
             let res = await registerNewUser(email, phone, username, password)
             console.log('res', res);
-            if (res.data && +res.data.EC === 0) {
-                toast.success(res.data.EM);
+            if (res && +res.EC === 0) {
+                toast.success(res.EM);
                 history.push('/login');
             }
             else {
-                toast.error(res.data.EM);
+                toast.error(res.EM);
             }
         }
     }

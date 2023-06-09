@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from 'react';
 import './Users.scss'
-import { fetchAllUsers, deleteUser } from '../services/userService';
+import { fetchAllUsers, deleteUser } from '../../services/userService';
 import ReactPaginate from 'react-paginate';
 import { toast } from 'react-toastify';
 import ModalDeleteUser from './ModalDeleteUser';
@@ -21,10 +21,11 @@ const Users = (props) => {
 
     const fetchUsers = async () => {
         let res = await fetchAllUsers(currentPage, currentLimit);
-        if (res && res.data && +res.data.EC === 0) {
-            console.log('check data', res.data);
-            setListUsers(res.data.DT.users);
-            setTotalPage(res.data.DT.totalPages);
+        console.log(">>>check res", res);
+        if (res && +res.EC === 0) {
+            console.log('check data', res);
+            setListUsers(res.DT.users);
+            setTotalPage(res.DT.totalPages);
         }
     }
 
@@ -48,12 +49,12 @@ const Users = (props) => {
 
     const confirmDeleteUser = async () => {
         let res = await deleteUser(dataModalDeleteUser);
-        if (res && res.data && +res.data.EC === 0) {
+        if (res && +res.EC === 0) {
             fetchUsers();
-            toast.success(res.data.EM);
+            toast.success(res.EM);
             handleClose();
         } else {
-            toast.error(res.data.EM);
+            toast.error(res.EM);
         }
     }
 

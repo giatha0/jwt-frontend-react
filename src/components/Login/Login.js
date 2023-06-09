@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './Login.scss';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { loginUser } from '../services/userService';
+import { loginUser } from '../../services/userService';
 
 const Login = (props) => {
     const history = useHistory();
@@ -42,7 +42,7 @@ const Login = (props) => {
         }
 
         let res = await loginUser(valueLogin, password);
-        if (res && res.data && +res.data.EC === 0) {
+        if (res && +res.EC === 0) {
             let data = {
                 isAuthenticated: true,
                 token: 'fake token',
@@ -50,12 +50,12 @@ const Login = (props) => {
             sessionStorage.setItem("account", JSON.stringify(data));
             history.push('/users');
             window.location.reload();
-            toast.success(res.data.EM);
+            toast.success(res.EM);
             // redux
         }
 
-        if (res && res.data && +res.data.EC !== 0) {
-            toast.error(res.data.EM);
+        if (res && +res.EC !== 0) {
+            toast.error(res.EM);
         }
     }
 
