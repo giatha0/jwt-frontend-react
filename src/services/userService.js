@@ -12,7 +12,6 @@ const loginUser = (valueLogin, password) => {
     return axios.post('/api/v1/login', {
         valueLogin, password
     })
-
 }
 
 const fetchAllUsers = (page, limit) => {
