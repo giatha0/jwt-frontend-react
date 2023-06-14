@@ -49,16 +49,16 @@ const Login = (props) => {
             let email = res.DT.email;
             let username = res.DT.username;
             let token = res.DT.access_token
+
             let data = {
                 isAuthenticated: true,
                 token: token,
                 account: { groupWithRoles, email, username }
             }
-            sessionStorage.setItem("account", JSON.stringify(data));
+
             loginContext(data)
 
             history.push('/users');
-            // window.location.reload();
             toast.success(res.EM);
             // redux
         }
@@ -74,13 +74,7 @@ const Login = (props) => {
         }
     }
 
-    useEffect(() => {
-        let session = sessionStorage.getItem("account");
-        if (session) {
-            history.push('/');
-            window.location.reload();
-        }
-    }, [])
+
     return (
         <div className="login-container ">
             <div className="container">
