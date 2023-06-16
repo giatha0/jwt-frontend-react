@@ -1,24 +1,25 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Route, Redirect } from "react-router-dom";
-import { useHistory } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
+
 
 const PrivateRoutes = (props) => {
 
-    let history = useHistory();
+
+
     const { user } = useContext(UserContext);
 
-
-    if (user && user.isAuthenticated === true) {
-        return (
-            <>
+    return (
+        <>
+            {user && user.isAuthenticated === true
+                ?
                 <Route path={props.path} component={props.component} />
-            </>
-        )
-    } else {
-        return <Redirect to='/login'></Redirect>
-    }
+                :
+                <Redirect to='/login'></Redirect>
+            }
+        </>
 
+    )
 
 }
 

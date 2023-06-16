@@ -44,6 +44,7 @@ const Login = (props) => {
         }
 
         let res = await loginUser(valueLogin, password);
+        console.log('check res login', res);
         if (res && +res.EC === 0) {
             let groupWithRoles = res.DT.data;
             let email = res.DT.email;
@@ -56,11 +57,9 @@ const Login = (props) => {
                 account: { groupWithRoles, email, username }
             }
 
-            loginContext(data)
-
+            localStorage.setItem('jwt', token);
+            loginContext(data);
             history.push('/users');
-            toast.success(res.EM);
-            // redux
         }
 
         if (res && +res.EC !== 0) {

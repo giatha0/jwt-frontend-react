@@ -4,22 +4,44 @@ import {
 } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Nav from './components/Navigation/Nav';
 import AppRoutes from './routes/AppRoutes';
+import { Rings } from 'react-loader-spinner'
+import { UserContext } from './context/UserContext';
 
 function App() {
-
+  const { user } = useContext(UserContext);
+  console.log('check app', user);
 
   return (
     <>
       <Router>
-        <div className='app-header'>
-          <Nav />
-        </div>
-        <div className="app-container">
-          <AppRoutes />
-        </div>
+        {user && user.isLoading
+          ?
+          <div className='loading-container d-flex flex-column justify-content-center align-items-center min-vh-100'>
+            <Rings
+              height="100"
+              width="100"
+              color="#1877f2"
+              radius="6"
+              wrapperStyle={{}}
+              wrapperClass=""
+              visible={true}
+              ariaLabel="rings-loading"
+            />
+            <div>Loading data...</div>
+          </div>
+          :
+          <>
+            <div className='app-header'>
+              <Nav />
+            </div>
+            <div className="app-container">
+              <AppRoutes />
+            </div>
+          </>
+        }
       </Router>
 
       <ToastContainer

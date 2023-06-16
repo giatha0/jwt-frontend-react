@@ -9,7 +9,7 @@ const instance = axios.create({
 instance.defaults.withCredentials = true;
 
 // Alter defaults after instance has been created
-// instance.defaults.headers.common['Authorization'] = 'AUTH_TOKEN 123';
+instance.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem("jwt")}`;
 
 
 // Add a request interceptor
@@ -33,9 +33,9 @@ instance.interceptors.response.use(function (response) {
     switch (status) {
         // authentication (token related issues)
         case 401: {
-            toast.error("You are not authorized to access this resource");
+            toast.error("Unauthorized the user. Please login ...");
             // window.location.href = "/login";
-            return Promise.reject(err);
+            return err.response.data;
         }
 
         // forbidden (permission related issues)

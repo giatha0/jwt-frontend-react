@@ -1,22 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { getUserAccount } from "../services/userService";
 
+
 const UserContext = React.createContext(null);
 
 const UserProvider = ({ children }) => {
 
+    const userDefaultData = {
+        isLoading: true,
+        isAuthenticated: false,
+        token: "",
+        account: {}
+    }
+    const [user, setUser] = useState(userDefaultData);
 
-    const [user, setUser] = useState(
-        {
-            isAuthenticated: false,
-            token: "",
-            account: {}
-        }
-    );
 
     // Login updates the user data with a name parameter
     const loginContext = (userData) => {
-        setUser(userData)
+        setUser({ ...userData, isLoading: false })
     }
 
     // Logout updates the user data to default
@@ -28,9 +29,9 @@ const UserProvider = ({ children }) => {
     };
 
     const fetchUserAccount = async () => {
-        let res = await getUserAccount()
-        if (res?.EC === 0) {
-            let groupWithRoles = res.DT.data;
+        const res = await getUserAccount();
+        if (+res?.EC === 0) {
+            let groupWithRoles = res.DT.groupWithRoles;
             let email = res.DT.email;
             let username = res.DT.username;
             let token = res.DT.access_token
@@ -38,15 +39,25 @@ const UserProvider = ({ children }) => {
             let data = {
                 isAuthenticated: true,
                 token: token,
-                account: { groupWithRoles, email, username }
+                account: { groupWithRoles, email, username },
+                isLoading: false
             }
-            setUser(data)
+            setTimeout(() => {
+                setUser(data)
+            }, 1000)
+
+        }
+        else {
+            setUser({ ...userDefaultData, isLoading: false })
         }
     }
 
     useEffect(() => {
-        fetchUserAccount()
+        if (window.location.pathname !== '/' || window.location.pathname !== '/login') {
+            fetchUserAccount();
+        }
     }, [])
+
 
     return (
         <UserContext.Provider value={{ user, loginContext, logout }}>
