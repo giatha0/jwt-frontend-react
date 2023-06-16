@@ -28,3 +28,50 @@ body {
 
 
 }
+
+.nav-header {
+
+    .navbar-brand {
+        color: #61dafb !important;
+
+
+        img {
+            animation: App-logo-spin infinite 5s linear;
+        }
+
+        @keyframes App-logo-spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    }
+
+    .bg-header {
+        background-color: #20232a;
+    }
+
+    a {
+        color: white !important;
+
+        &:hover {
+            color: #61dafb !important;
+        }
+    }
+
+    .dropdown-menu {
+        a {
+            color: black !important;
+        }
+    }
+
+    .nav-link {
+        &.active {
+            color: #61dafb !important;
+        }
+    }
+
+}
