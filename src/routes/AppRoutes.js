@@ -1,11 +1,9 @@
-import {
-    Switch,
-    Route
-} from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import Register from '../components/Register/Register';
 import Users from '../components/ManageUsers/Users';
 import Login from '../components/Login/Login';
 import PrivateRoutes from "./PrivateRoutes";
+import Role from "../components/Role/Role";
 
 
 const Project = () => {
@@ -23,6 +21,7 @@ const AppRoutes = () => {
 
                 <PrivateRoutes path="/users" component={Users} />
                 <PrivateRoutes path="/projects" component={Project} />
+                <PrivateRoutes path="/roles" component={Role} />
 
                 <Route path="/login">
                     <Login />
