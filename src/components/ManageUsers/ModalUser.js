@@ -52,6 +52,7 @@ const ModalUser = (props) => {
                     group: userGroup[0].id
                 })
             }
+            props.setCurrentPage(1);
         }
     }, [action])
 
@@ -114,7 +115,7 @@ const ModalUser = (props) => {
                 :
                 await updateUser({ ...userData, groupId: userData['group'] ? userData['group'] : userGroup[0].id }) // update user with groupId = group });
 
-            console.log('check user group', userData)
+            // console.log('check user group', userData)
             if (res && res && +res.EC === 0) {
                 toast.success(res.EM);
                 props.handleClose();
@@ -122,6 +123,8 @@ const ModalUser = (props) => {
                     ...defaultUserData,
                     group: userGroup[0].id
                 }); // set default value with defult group
+
+
             } else {
                 toast.error(res.EM);
                 let _validInputsDefult = _.cloneDeep(validInputsDefult); // clone object

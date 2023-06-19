@@ -26,6 +26,7 @@ const TableRole = forwardRef((props, ref) => {
 
     const getAllRoles = async () => {
         let res = await fetchAllRoles(currentPage, currentLimit);
+
         console.log(res)
         if (res && +res.EC === 0) {
             setListRoles(res.DT.roles)
@@ -58,7 +59,6 @@ const TableRole = forwardRef((props, ref) => {
                         <th scope="col">Id</th>
                         <th scope="col">Url</th>
                         <th scope="col">Description</th>
-                        <th scope="col">Group</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -71,7 +71,6 @@ const TableRole = forwardRef((props, ref) => {
                                         <td>{item.id}</td>
                                         <td>{item.url}</td>
                                         <td>{item.description}</td>
-                                        <td>{item['Groups.name']}</td>
                                         <td>
                                             <button
                                                 className='btn btn-danger'

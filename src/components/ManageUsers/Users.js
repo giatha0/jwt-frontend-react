@@ -26,19 +26,21 @@ const Users = (props) => {
             console.log('check data', res);
             setListUsers(res.DT.users);
 
+
             if (+res.DT.totalPages > 0 && +currentPage > +res.DT.totalPages) {
                 setCurrentPage(+res.DT.totalPages);
             }
-
             setTotalPage(+res.DT.totalPages);
-
-
         }
     }
+    console.log(">>>check listUsers", listUsers);
 
     useEffect(() => {
         fetchUsers();
     }, [currentPage])
+
+
+
 
     const handlePageClick = async (event) => {
         setCurrentPage(+event.selected + 1);
@@ -135,7 +137,7 @@ const Users = (props) => {
                                                     <td>{item.id}</td>
                                                     <td>{item.email}</td>
                                                     <td>{item.username}</td>
-                                                    <td>{item.Group ? item.Group.name : ''}</td>
+                                                    <td>{item['Group.name'] ? item['Group.name'] : ''}</td>
                                                     <td>
                                                         <button
                                                             className='btn btn-warning mx-2'
@@ -211,7 +213,8 @@ const Users = (props) => {
                 handleClose={handleCloseUser}
                 action={actionModalUser}
                 dataModalUser={dataModalUser}
-
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
             />
         </>
     )

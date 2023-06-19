@@ -55,7 +55,7 @@ const NavHeader = (props) => {
                                 <Nav>
                                     {user && user.isAuthenticated === true ?
                                         <>
-                                            <NavLink className='nav-link' to="/home">
+                                            <NavLink className='nav-link' to="/">
                                                 Welcome {user.account.username}!
                                             </NavLink>
                                             <NavDropdown title="Settings" id="basic-nav-dropdown">
