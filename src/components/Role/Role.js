@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './Role.scss';
 import _ from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
 import { toast } from 'react-toastify';
 import { createRole } from '../../services/roleService';
-
+import TableRole from './TableRole';
 
 const Role = (props) => {
 
@@ -14,6 +14,9 @@ const Role = (props) => {
     const [listChilds, setListChilds] = useState({
         child1: dataChildDefault
     })
+    const childRef = useRef();
+
+
 
     const handleOnchangeInput = (name, value, key) => {
         let _listChilds = _.cloneDeep(listChilds);
@@ -64,6 +67,8 @@ const Role = (props) => {
             console.log(res);
             if (res && +res.EC === 0) {
                 toast.success(res.EM);
+                childRef.current.refresh();
+                console.log('child ref', childRef.current)
             } else {
                 toast.error(res.EM);
             }
@@ -81,7 +86,7 @@ const Role = (props) => {
         <>
             <div className='role-container'>
                 <div className='container'>
-                    <div className='mt-3'>
+                    <div className='add-roles mt-3'>
                         <div className='title-row'>
                             <h4 >Add a new role</h4>
                         </div>
@@ -137,7 +142,13 @@ const Role = (props) => {
                             >Save</button>
                         </div>
                     </div>
+                    <hr />
+                    <div className='mt-3'>
+                        <h4>List Current Role: </h4>
+                        <TableRole ref={childRef} />
+                    </div>
                 </div>
+
             </div>
         </>
     );
