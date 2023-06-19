@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './Register.scss';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { toast } from 'react-toastify'
 import { registerNewUser } from '../../services/userService';
+import { UserContext } from '../../context/UserContext';
 
 const Register = (props) => {
+    const { user } = useContext(UserContext);
+
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [username, setUsername] = useState('');
@@ -26,12 +29,9 @@ const Register = (props) => {
     }
 
     useEffect(() => {
-        // axios.get('http://localhost:8080/api/v1/test-api').then(res => {
-        //     console.log('check data', res);
-        // })
-
-
-        // handleRegister();
+        if (user && user.isAuthenticated) {
+            history.push('/');
+        }
 
     }, [])
 
@@ -142,7 +142,10 @@ const Register = (props) => {
                 <div className="row px-3 px-sm-0">
                     <div className="content-left col-12 d-none col-sm-7 d-sm-block">
                         <div className='brand'>
-                            Thao Duong Gia
+                            <Link to='/' className='text-decoration-none'>
+                                <span>Thao Duong Gia</span>
+                            </Link>
+
                         </div>
 
                         <div className='detail'>
@@ -221,6 +224,12 @@ const Register = (props) => {
                             >
                                 Already have an account? Log In
                             </button>
+                            <div className='mt-3 return '>
+                                <Link to='/' className='text-decoration-none'>
+                                    <i className="fa fa-arrow-circle-left"></i>
+                                    <span className='ms-1' title='Return to HomePage'>Return to HomePage</span>
+                                </Link>
+                            </div>
                         </div>
 
                     </div>

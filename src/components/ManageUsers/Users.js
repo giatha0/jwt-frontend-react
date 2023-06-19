@@ -25,7 +25,14 @@ const Users = (props) => {
         if (res && +res.EC === 0) {
             console.log('check data', res);
             setListUsers(res.DT.users);
-            setTotalPage(res.DT.totalPages);
+
+            if (+res.DT.totalPages > 0 && +currentPage > +res.DT.totalPages) {
+                setCurrentPage(+res.DT.totalPages);
+            }
+
+            setTotalPage(+res.DT.totalPages);
+
+
         }
     }
 
@@ -162,8 +169,9 @@ const Users = (props) => {
                             </tbody>
                         </table>
                     </div>
+
                     {totalPage > 0 &&
-                        <div className='user-footer'>
+                        <div className='user-footer user-footer d-flex flex-column justify-content-center align-items-center'>
                             <ReactPaginate
                                 nextLabel="next >"
                                 onPageChange={handlePageClick}
@@ -183,6 +191,7 @@ const Users = (props) => {
                                 containerClassName="pagination"
                                 activeClassName="active"
                                 renderOnZeroPageCount={null}
+                                forcePage={+currentPage - 1}
                             />
                         </div>
 
@@ -197,12 +206,12 @@ const Users = (props) => {
                 dataModal={dataModalDeleteUser}
             />
             <ModalUser
-
                 show={isShowUser}
                 setShow={handleCloseUser}
                 handleClose={handleCloseUser}
                 action={actionModalUser}
                 dataModalUser={dataModalUser}
+
             />
         </>
     )

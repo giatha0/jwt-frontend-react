@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import './Login.scss';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { loginUser } from '../../services/userService';
 import { UserContext } from '../../context/UserContext';
 
 const Login = (props) => {
-    const { loginContext } = useContext(UserContext);
+    const { user, loginContext } = useContext(UserContext);
     const history = useHistory();
 
     const [valueLogin, setValueLogin] = useState("");
@@ -73,6 +73,11 @@ const Login = (props) => {
         }
     }
 
+    useEffect(() => {
+        if (user && user.isAuthenticated) {
+            history.push('/');
+        }
+    }, [])
 
     return (
         <div className="login-container ">
@@ -80,7 +85,10 @@ const Login = (props) => {
                 <div className="row px-3 px-sm-0">
                     <div className="content-left col-12 d-none col-sm-7 d-sm-block">
                         <div className='brand'>
-                            Thao Duong Gia
+                            <Link to='/' className='text-decoration-none'>
+                                <span title='Return to HomePage'>Thao Duong Gia</span>
+                            </Link>
+
                         </div>
                         <div className='detail'>
                             Thao Duong Gia helps you connect and share with the people in your life.
@@ -124,6 +132,12 @@ const Login = (props) => {
                             >
                                 Create New Account
                             </button>
+                            <div className='mt-3 return '>
+                                <Link to='/' className='text-decoration-none'>
+                                    <i className="fa fa-arrow-circle-left"></i>
+                                    <span className='ms-1' title='Return to HomePage'>Return to HomePage</span>
+                                </Link>
+                            </div>
                         </div>
 
                     </div>

@@ -5,12 +5,16 @@ import Login from '../components/Login/Login';
 import PrivateRoutes from "./PrivateRoutes";
 import Role from "../components/Role/Role";
 import GroupRole from "../components/GroupRole/GroupRole";
+import Home from "../components/Home/Home";
+import About from "../components/About/About";
 
 
 const Project = () => {
     return (
-        <div>
-            Project
+        <div className="container mt-3">
+            <h5>
+                Project
+            </h5>
         </div>
     )
 }
@@ -34,10 +38,15 @@ const AppRoutes = () => {
 
 
                 <Route path="/" exact>
-                    Home
+                    <Home />
+                </Route>
+                <Route path="/about" exact>
+                    <About />
                 </Route>
                 <Route path="*" >
-                    404 not found
+                    <div className="container">
+                        404 not found
+                    </div>
                 </Route>
             </Switch>
         </>
