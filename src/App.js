@@ -9,13 +9,20 @@ import NavHeader from './components/Navigation/NavHeader';
 import AppRoutes from './routes/AppRoutes';
 import { Rings } from 'react-loader-spinner'
 import { UserContext } from './context/UserContext';
+import { Scrollbars } from 'react-custom-scrollbars';
 
-function App() {
+const App = () => {
   const { user } = useContext(UserContext);
-  console.log('check app', user);
+  const [scrollHeight, setScrollHeight] = useState(0);
+
+  useEffect(() => {
+    let windowHeight = window.innerHeight;
+    setScrollHeight(windowHeight - 60);
+  }, [user])
 
   return (
     <>
+
       <Router>
         {user && user.isLoading
           ?
@@ -37,16 +44,19 @@ function App() {
             <div className='app-header'>
               <NavHeader />
             </div>
-            <div className="app-container">
-              <AppRoutes />
-            </div>
+            <Scrollbars autoHide style={{ height: scrollHeight }}>
+              <div className="app-container">
+                <AppRoutes />
+              </div>
+            </Scrollbars>
           </>
         }
-      </Router>
+      </Router >
+
 
       <ToastContainer
         position="bottom-center"
-        autoClose={5000}
+        autoClose={3000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick
@@ -58,6 +68,7 @@ function App() {
       />
 
     </>
+
   );
 }
 
